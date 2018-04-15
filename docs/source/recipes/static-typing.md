@@ -231,7 +231,7 @@ export default withCharacter(({ loading, hero, error }) => {
 Since we have typed the response shape, the props shape, and the shape of what will be passed to the client, we can prevent errors in multiple places. Our options and props function within the `graphql` wrapper are now type safe, our rendered component is protected, and our tree of components have their required props enforced.
 
 ```javascript
-export const withCharacter = graphql<InputProps, Response, Variables, Props>(HERO_QUERY, {
+export const withCharacter = graphql<InputProps, Response, Variables, ChildProps>(HERO_QUERY, {
   options: ({ episode }) => ({
     variables: { episode }
   }),
@@ -278,9 +278,9 @@ If you are using the `name` property in the configuration of the `graphql` wrapp
 ```javascript
 import { NamedProps, QueryProps } from 'react-apollo';
 
-export const withCharacter = graphql<Response, InputProps, Prop>(HERO_QUERY, {
+export const withCharacter = graphql<Response, InputProps, ChildProps>(HERO_QUERY, {
   name: 'character',
-  props: ({ character, ownProps }: NamedProps<{ character: QueryProps & Response }, Props) => ({
+  props: ({ character, ownProps }: NamedProps<{ character: QueryProps & Response }, ChildProps) => ({
     ...character,
     // $ExpectError [string] This type cannot be compared to number
     episode: ownProps.episode > 1,
@@ -289,4 +289,3 @@ export const withCharacter = graphql<Response, InputProps, Prop>(HERO_QUERY, {
   })
 });
 ```
-
